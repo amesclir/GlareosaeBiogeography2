@@ -1425,18 +1425,18 @@ if (runslow)
     res    
 
     save(res, file=resfn)
-    resDECc = res
+    resDECcb = res
     } else {
     # Loads to "res"
     load(resfn)
-    resDECc = res
+    resDECcb = res
     }
 
 
 
 ```
 
-16. Run DEC + J con tasas de dispersion bis
+18. Run DEC + J con tasas de dispersion bis
 
 ```{r}
 
@@ -1514,16 +1514,16 @@ if (runslow)
 
     save(res, file=resfn)
 
-    resDECjc = res
+    resDECjcb = res
     } else {
     # Loads to "res"
     load(resfn)
-    resDECjc = res
+    resDECjcb = res
     }
 ```
 
 
-12. Plotting the results with dispesal rates
+19. Plotting the results with dispesal rates
 
 ```{r}
 
@@ -1539,7 +1539,7 @@ pdf(pdffn, width=6, height=6)
 analysis_titletxt ="BioGeoBEARS DEC on Glareosae M0_constrained_b"
 
 # Setup
-results_object = resDECc
+results_object = resDECcb
 scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
 
 # States
@@ -1551,10 +1551,10 @@ plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"
 #######################################################
 # Plot ancestral states - DECJ
 #######################################################
-analysis_titletxt ="BioGeoBEARS DEC+J on Glareosae M0_constrained"
+analysis_titletxt ="BioGeoBEARS DEC+J on Glareosae M0_constrained_b"
 
 # Setup
-results_object = resDECjc
+results_object = resDECjcb
 scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
 
 # States
@@ -1569,7 +1569,7 @@ system(cmdstr) # Plot it
 
 ```
 
-13. Run DIVA like with dispersal rates
+20. Run DIVA like with dispersal rates bis
 
 ```{r}
 #######################################################
@@ -1585,7 +1585,7 @@ BioGeoBEARS_run_object$include_null_range = TRUE    # set to FALSE for e.g. DEC*
 
 # Set up a time-stratified analysis:
 #BioGeoBEARS_run_object$timesfn = "timeperiods.txt"
-BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers.txt"
+BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers_b.txt"
 #BioGeoBEARS_run_object$areas_allowed_fn = "areas_allowed.txt"
 #BioGeoBEARS_run_object$areas_adjacency_fn = "areas_adjacency.txt"
 #BioGeoBEARS_run_object$distsfn = "distances_matrix.txt"
@@ -1635,23 +1635,23 @@ BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01v","est"] = 0.
 check_BioGeoBEARS_run(BioGeoBEARS_run_object)
 
 runslow = TRUE
-resfn = "Glareosae_DIVALIKE_M0_constrained_v1.Rdata"
+resfn = "Glareosae_DIVALIKE_M0_constrained_b_v1.Rdata"
 if (runslow)
     {
     res = bears_optim_run(BioGeoBEARS_run_object)
     res    
 
     save(res, file=resfn)
-    resDIVALIKEc = res
+    resDIVALIKEcb = res
     } else {
     # Loads to "res"
     load(resfn)
-    resDIVALIKEc = res
+    resDIVALIKEcb = res
     }
 
 ```
 
-14. Run DIVALIKE + j with dispersal rates
+21. Run DIVALIKE + j with dispersal rates bis
 
 ```{r}
 #######################################################
@@ -1667,7 +1667,7 @@ BioGeoBEARS_run_object$include_null_range = TRUE    # set to FALSE for e.g. DEC*
 
 # Set up a time-stratified analysis:
 #BioGeoBEARS_run_object$timesfn = "timeperiods.txt"
-BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers.txt"
+BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers_b.txt"
 #BioGeoBEARS_run_object$areas_allowed_fn = "areas_allowed.txt"
 #BioGeoBEARS_run_object$areas_adjacency_fn = "areas_adjacency.txt"
 #BioGeoBEARS_run_object$distsfn = "distances_matrix.txt"
@@ -1732,7 +1732,7 @@ BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","max"] = 1.9999
 
 check_BioGeoBEARS_run(BioGeoBEARS_run_object)
 
-resfn = "Glareosae_DIVALIKE+J_M0_constrained_v1.Rdata"
+resfn = "Glareosae_DIVALIKE+J_M0_constrained_b_v1.Rdata"
 runslow = TRUE
 if (runslow)
     {
@@ -1743,30 +1743,30 @@ if (runslow)
 
     save(res, file=resfn)
 
-    resDIVALIKEjc = res
+    resDIVALIKEjcb = res
     } else {
     # Loads to "res"
     load(resfn)
-    resDIVALIKEjc = res
+    resDIVALIKEjcb = res
     }
 
 
 ```
 
-15. Plotting additional results with dispersal rates
+22. Plotting additional results with dispersal rates bis
 
 ```{r}
 
-pdffn = "Glareosae_DIVALIKE_vs_DIVALIKE+J_M0_constrained_v1.pdf"
+pdffn = "Glareosae_DIVALIKE_vs_DIVALIKE+J_M0_constrained_b_v1.pdf"
 pdf(pdffn, width=6, height=6)
 
 #######################################################
 # Plot ancestral states - DIVALIKE
 #######################################################
-analysis_titletxt ="BioGeoBEARS DIVALIKE on Glareosae M0_constrained"
+analysis_titletxt ="BioGeoBEARS DIVALIKE on Glareosae M0_constrained_b"
 
 # Setup
-results_object = resDIVALIKEc
+results_object = resDIVALIKEcb
 scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
 
 # States
@@ -1778,10 +1778,10 @@ plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"
 #######################################################
 # Plot ancestral states - DIVALIKE+J
 #######################################################
-analysis_titletxt ="Glareosae DIVALIKE+J on Psychotria M0_constrained"
+analysis_titletxt ="Glareosae DIVALIKE+J on Psychotria M0_constrained_b"
 
 # Setup
-results_object = resDIVALIKEjc
+results_object = resDIVALIKEjcb
 scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
 
 # States
@@ -1797,7 +1797,7 @@ system(cmdstr)
 ```
 
 
-16. Comparing all results with dispersal rates
+23. Comparing all results with dispersal rates bis
 
 ```{r}
 #########################################################################
@@ -1806,7 +1806,7 @@ system(cmdstr)
 #########################################################################
 # 
 # CALCULATE SUMMARY STATISTICS TO COMPARE
-# DEC, DEC+J, DIVALIKE, DIVALIKE+J
+# DEC, DEC+J, DIVALIKE,DIVALIKE+J
 # 
 #########################################################################
 #########################################################################
@@ -1832,8 +1832,8 @@ teststable = NULL
 #######################################################
 # We have to extract the log-likelihood differently, depending on the 
 # version of optim/optimx
-LnL_2 = get_LnL_from_BioGeoBEARS_results_object(resDECc)
-LnL_1 = get_LnL_from_BioGeoBEARS_results_object(resDECjc)
+LnL_2 = get_LnL_from_BioGeoBEARS_results_object(resDECcb)
+LnL_1 = get_LnL_from_BioGeoBEARS_results_object(resDECjcb)
 
 numparams1 = 3
 numparams2 = 2
@@ -1841,9 +1841,9 @@ stats = AICstats_2models(LnL_1, LnL_2, numparams1, numparams2)
 stats
 
 # DEC, null model for Likelihood Ratio Test (LRT)
-res2 = extract_params_from_BioGeoBEARS_results_object(results_object=resDECc, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
+res2 = extract_params_from_BioGeoBEARS_results_object(results_object=resDECcb, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
 # DEC+J, alternative model for Likelihood Ratio Test (LRT)
-res1 = extract_params_from_BioGeoBEARS_results_object(results_object=resDECjc, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
+res1 = extract_params_from_BioGeoBEARS_results_object(results_object=resDECjcb, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
 
 # The null hypothesis for a Likelihood Ratio Test (LRT) is that two models
 # confer the same likelihood on the data. See: Brian O'Meara's webpage:
@@ -1861,8 +1861,8 @@ teststable = rbind(teststable, tmp_tests)
 #######################################################
 # We have to extract the log-likelihood differently, depending on the 
 # version of optim/optimx
-LnL_2 = get_LnL_from_BioGeoBEARS_results_object(resDIVALIKEc)
-LnL_1 = get_LnL_from_BioGeoBEARS_results_object(resDIVALIKEjc)
+LnL_2 = get_LnL_from_BioGeoBEARS_results_object(resDIVALIKEcb)
+LnL_1 = get_LnL_from_BioGeoBEARS_results_object(resDIVALIKEjcb)
 
 numparams1 = 3
 numparams2 = 2
@@ -1870,9 +1870,9 @@ stats = AICstats_2models(LnL_1, LnL_2, numparams1, numparams2)
 stats
 
 # DIVALIKE, null model for Likelihood Ratio Test (LRT)
-res2 = extract_params_from_BioGeoBEARS_results_object(results_object=resDIVALIKEc, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
+res2 = extract_params_from_BioGeoBEARS_results_object(results_object=resDIVALIKEcb, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
 # DIVALIKE+J, alternative model for Likelihood Ratio Test (LRT)
-res1 = extract_params_from_BioGeoBEARS_results_object(results_object=resDIVALIKEjc, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
+res1 = extract_params_from_BioGeoBEARS_results_object(results_object=resDIVALIKEjcb, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
 
 rbind(res2, res1)
 conditional_format_table(stats)
@@ -1899,16 +1899,16 @@ teststable
 #######################################################
 
 # Loads to "restable"
-save(restable, file="restable_v1c.Rdata")
-load(file="restable_v1c.Rdata")
+save(restable, file="restable_v1cb.Rdata")
+load(file="restable_v1cb.Rdata")
 
 # Loads to "teststable"
-save(teststable, file="teststable_v1c.Rdata")
-load(file="teststable_v1c.Rdata")
+save(teststable, file="teststable_v1cb.Rdata")
+load(file="teststable_v1cb.Rdata")
 
 # Also save to text files
-write.table(restable, file="restablec.txt", quote=FALSE, sep="\t")
-write.table(unlist_df(teststable), file="teststablec.txt", quote=FALSE, sep="\t")
+write.table(restable, file="restablecb.txt", quote=FALSE, sep="\t")
+write.table(unlist_df(teststable), file="teststablecb.txt", quote=FALSE, sep="\t")
 
 #######################################################
 # Model weights of all six models
@@ -1927,22 +1927,22 @@ AICtable = calc_AICc_column(LnL_vals=restable$LnL, nparam_vals=restable$numparam
 restable2 = cbind(restable2, AICtable)
 restable_AICc_rellike = AkaikeWeights_on_summary_table(restable=restable2, colname_to_use="AIC")
 restable_AICc_rellike
-free_params = row.names(resDECj$output@params_table[resDECj$output@params_table$type=="free",])
+free_params = row.names(resDECjcb$output@params_table[resDECjcb$output@params_table$type=="free",])
 names(restable_AICc_rellike) = c("LnL", "numparams", free_params, "AICc", "AICc_wt")
 
 # Also save to text files
-write.table(restable_AIC_rellike, file="restable_AIC_rellikec.txt", quote=FALSE, sep="\t")
-write.table(restable_AICc_rellike, file="restable_AICc_rellikec.txt", quote=FALSE, sep="\t")
+write.table(restable_AIC_rellike, file="restable_AIC_rellikecb.txt", quote=FALSE, sep="\t")
+write.table(restable_AICc_rellike, file="restable_AICc_rellikecb.txt", quote=FALSE, sep="\t")
 
 # Save with nice conditional formatting
-write.table(conditional_format_table(restable_AIC_rellike), file="restable_AIC_rellike_formattedc.txt", quote=FALSE, sep="\t")
-write.table(conditional_format_table(restable_AICc_rellike), file="restable_AICc_rellike_formattedc.txt", quote=FALSE, sep="\t")
+write.table(conditional_format_table(restable_AIC_rellike), file="restable_AIC_rellike_formattedcb.txt", quote=FALSE, sep="\t")
+write.table(conditional_format_table(restable_AICc_rellike), file="restable_AICc_rellike_formattedcb.txt", quote=FALSE, sep="\t")
 
 
 ```
 
 
-23. Now we are going to use the model DEC with dispersal multipliers and time periods
+24. Now we are going to use the model DEC with dispersal multipliers and time periods
 
 ```{r}
 
@@ -2052,7 +2052,7 @@ if (runslow)
 
 ```
 
-24. Run DEC + J with distance multipliers and time periods
+25. Run DEC + J with distance multipliers and time periods
 
 ```{r}
 
@@ -2139,7 +2139,7 @@ if (runslow)
 ```
 
 
-25. Plotting the results with dispesal rates and time periods
+26. Plotting the results with dispesal rates and time periods
 
 ```{r}
 
@@ -2185,7 +2185,7 @@ system(cmdstr) # Plot it
 
 ```
 
-26. Run DIVA like with dispersal rates and time periods
+27. Run DIVA like with dispersal rates and time periods
 
 ```{r}
 #######################################################
@@ -2267,7 +2267,7 @@ if (runslow)
 
 ```
 
-27. Run DIVALIKE + j with dispersal rates and time periods
+28. Run DIVALIKE + j with dispersal rates and time periods
 
 ```{r}
 #######################################################
@@ -2369,7 +2369,7 @@ if (runslow)
 
 ```
 
-28. Plotting additional results with dispersal rates and time periods
+29. Plotting additional results with dispersal rates and time periods
 
 ```{r}
 
@@ -2412,259 +2412,8 @@ system(cmdstr)
 
 ```
 
-29. Running BAYAREALIKE with dispersal rates and time periods
 
-```{r}
-#######################################################
-# Run BAYAREALIKE
-#######################################################
-BioGeoBEARS_run_object = define_BioGeoBEARS_run()
-BioGeoBEARS_run_object$trfn = trfn
-BioGeoBEARS_run_object$geogfn = geogfn
-BioGeoBEARS_run_object$max_range_size = max_range_size
-BioGeoBEARS_run_object$min_branchlength = 0.000001    # Min to treat tip as a direct ancestor (no speciation event)
-BioGeoBEARS_run_object$include_null_range = TRUE    # set to FALSE for e.g. DEC* model, DEC*+J, etc. (see Massana et al.)
-# also search script on "include_null_range" for other places to change
-
-# Set up a time-stratified analysis:
-BioGeoBEARS_run_object$timesfn = "timeperiods.txt"
-BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers2.txt"
-#BioGeoBEARS_run_object$areas_allowed_fn = "areas_allowed.txt"
-#BioGeoBEARS_run_object$areas_adjacency_fn = "areas_adjacency.txt"
-#BioGeoBEARS_run_object$distsfn = "distances_matrix.txt"
-# See notes on the distances model on PhyloWiki's BioGeoBEARS updates page.
-
-# Speed options and multicore processing if desired
-BioGeoBEARS_run_object$speedup = TRUE          # shorcuts to speed ML search; use FALSE if worried (e.g. >3 params)
-BioGeoBEARS_run_object$use_optimx = TRUE     # if FALSE, use optim() instead of optimx()
-BioGeoBEARS_run_object$num_cores_to_use = 1
-BioGeoBEARS_run_object$force_sparse = FALSE    # force_sparse=TRUE causes pathology & isn't much faster at this scale
-
-# This function loads the dispersal multiplier matrix etc. from the text files into the model object. Required for these to work!
-# (It also runs some checks on these inputs for certain errors.)
-BioGeoBEARS_run_object = readfiles_BioGeoBEARS_run(BioGeoBEARS_run_object)
-
-# Divide the tree up by timeperiods/strata (uncomment this for stratified analysis)
-BioGeoBEARS_run_object = section_the_tree(inputs=BioGeoBEARS_run_object, make_master_table=TRUE, plot_pieces=FALSE)
-# The stratified tree is described in this table:
-#BioGeoBEARS_run_object$master_table
-
-# Good default settings to get ancestral states
-BioGeoBEARS_run_object$return_condlikes_table = TRUE
-BioGeoBEARS_run_object$calc_TTL_loglike_from_condlikes_table = TRUE
-BioGeoBEARS_run_object$calc_ancprobs = TRUE    # get ancestral states from optim run
-
-# Set up BAYAREALIKE model
-# No subset sympatry
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["s","type"] = "fixed"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["s","init"] = 0.0
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["s","est"] = 0.0
-
-# No vicariance
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["v","type"] = "fixed"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["v","init"] = 0.0
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["v","est"] = 0.0
-
-# No jump dispersal/founder-event speciation
-# BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","type"] = "free"
-# BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","init"] = 0.01
-# BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","est"] = 0.01
-
-# Adjust linkage between parameters
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["ysv","type"] = "1-j"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["ys","type"] = "ysv*1/1"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["y","type"] = "1-j"
-
-# Only sympatric/range-copying (y) events allowed, and with 
-# exact copying (both descendants always the same size as the ancestor)
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01y","type"] = "fixed"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01y","init"] = 0.9999
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01y","est"] = 0.9999
-
-# Check the inputs
-check_BioGeoBEARS_run(BioGeoBEARS_run_object)
-
-runslow = TRUE
-resfn = "Glareosae_BAYAREALIKE_M0_constrained2_v1.Rdata"
-if (runslow)
-    {
-    res = bears_optim_run(BioGeoBEARS_run_object)
-    res    
-
-    save(res, file=resfn)
-    resBAYAREALIKEc2 = res
-    } else {
-    # Loads to "res"
-    load(resfn)
-    resBAYAREALIKEc2 = res
-    }
-
-```
-
-30. And BAYAREALIKE + J with dispersal rates
-
-```{r}
-
-#######################################################
-# Run BAYAREALIKE+J
-#######################################################
-BioGeoBEARS_run_object = define_BioGeoBEARS_run()
-BioGeoBEARS_run_object$trfn = trfn
-BioGeoBEARS_run_object$geogfn = geogfn
-BioGeoBEARS_run_object$max_range_size = max_range_size
-BioGeoBEARS_run_object$min_branchlength = 0.000001    # Min to treat tip as a direct ancestor (no speciation event)
-BioGeoBEARS_run_object$include_null_range = TRUE    # set to FALSE for e.g. DEC* model, DEC*+J, etc. (see Massana et al.)
-# also search script on "include_null_range" for other places to change
-
-# Set up a time-stratified analysis:
-BioGeoBEARS_run_object$timesfn = "timeperiods.txt"
-BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers2.txt"
-#BioGeoBEARS_run_object$areas_allowed_fn = "areas_allowed.txt"
-#BioGeoBEARS_run_object$areas_adjacency_fn = "areas_adjacency.txt"
-#BioGeoBEARS_run_object$distsfn = "distances_matrix.txt"
-# See notes on the distances model on PhyloWiki's BioGeoBEARS updates page.
-
-# Speed options and multicore processing if desired
-BioGeoBEARS_run_object$speedup = TRUE          # shorcuts to speed ML search; use FALSE if worried (e.g. >3 params)
-BioGeoBEARS_run_object$use_optimx = TRUE
-BioGeoBEARS_run_object$num_cores_to_use = 1
-BioGeoBEARS_run_object$force_sparse = FALSE    # force_sparse=TRUE causes pathology & isn't much faster at this scale
-
-# This function loads the dispersal multiplier matrix etc. from the text files into the model object. Required for these to work!
-# (It also runs some checks on these inputs for certain errors.)
-BioGeoBEARS_run_object = readfiles_BioGeoBEARS_run(BioGeoBEARS_run_object)
-
-# Divide the tree up by timeperiods/strata (uncomment this for stratified analysis)
-BioGeoBEARS_run_object = section_the_tree(inputs=BioGeoBEARS_run_object, make_master_table=TRUE, plot_pieces=FALSE)
-# The stratified tree is described in this table:
-#BioGeoBEARS_run_object$master_table
-
-# Good default settings to get ancestral states
-BioGeoBEARS_run_object$return_condlikes_table = TRUE
-BioGeoBEARS_run_object$calc_TTL_loglike_from_condlikes_table = TRUE
-BioGeoBEARS_run_object$calc_ancprobs = TRUE    # get ancestral states from optim run
-
-# Set up BAYAREALIKE+J model
-# Get the ML parameter values from the 2-parameter nested model
-# (this will ensure that the 3-parameter model always does at least as good)
-dstart = resBAYAREALIKE$outputs@params_table["d","est"]
-estart = resBAYAREALIKE$outputs@params_table["e","est"]
-jstart = 0.0001
-
-# Input starting values for d, e
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["d","init"] = dstart
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["d","est"] = dstart
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["e","init"] = estart
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["e","est"] = estart
-
-# No subset sympatry
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["s","type"] = "fixed"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["s","init"] = 0.0
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["s","est"] = 0.0
-
-# No vicariance
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["v","type"] = "fixed"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["v","init"] = 0.0
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["v","est"] = 0.0
-
-# *DO* allow jump dispersal/founder-event speciation (set the starting value close to 0)
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","type"] = "free"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","init"] = jstart
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","est"] = jstart
-
-# Under BAYAREALIKE+J, the max of "j" should be 1, not 3 (as is default in DEC+J) or 2 (as in DIVALIKE+J)
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","max"] = 0.99999
-
-# Adjust linkage between parameters
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["ysv","type"] = "1-j"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["ys","type"] = "ysv*1/1"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["y","type"] = "1-j"
-
-# Only sympatric/range-copying (y) events allowed, and with 
-# exact copying (both descendants always the same size as the ancestor)
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01y","type"] = "fixed"
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01y","init"] = 0.9999
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["mx01y","est"] = 0.9999
-
-# NOTE (NJM, 2014-04): BAYAREALIKE+J seems to crash on some computers, usually Windows 
-# machines. I can't replicate this on my Mac machines, but it is almost certainly
-# just some precision under-run issue, when optim/optimx tries some parameter value 
-# just below zero.  The "min" and "max" options on each parameter are supposed to
-# prevent this, but apparently optim/optimx sometimes go slightly beyond 
-# these limits.  Anyway, if you get a crash, try raising "min" and lowering "max" 
-# slightly for each parameter:
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["d","min"] = 0.0000001
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["d","max"] = 4.9999999
-
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["e","min"] = 0.0000001
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["e","max"] = 4.9999999
-
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","min"] = 0.00001
-BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table["j","max"] = 0.99999
-
-check_BioGeoBEARS_run(BioGeoBEARS_run_object)
-
-resfn = "Glareosae_BAYAREALIKE+J_M0_constrained2_v1.Rdata"
-runslow = TRUE
-if (runslow)
-    {
-    res = bears_optim_run(BioGeoBEARS_run_object)
-    res    
-
-    save(res, file=resfn)
-
-    resBAYAREALIKEjc2 = res
-    } else {
-    # Loads to "res"
-    load(resfn)
-    resBAYAREALIKEjc2 = res
-    }
-```
-
-31. Plotting BAYAREALIKE results with dispersal rates and time periods
-
-```{r}
-pdffn = "Glareosae_BAYAREALIKE_vs_BAYAREALIKE+J_M0_constrained2_v1.pdf"
-pdf(pdffn, width=6, height=6)
-
-#######################################################
-# Plot ancestral states - BAYAREALIKE
-#######################################################
-analysis_titletxt ="BioGeoBEARS BAYAREALIKE on Glareosae M0_constrained and time periods"
-
-# Setup
-results_object = resBAYAREALIKEc2
-scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
-
-# States
-res2 = plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="text", label.offset=0.75, tipcex=0.3, statecex=0.3, splitcex=0.3, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
-
-# Pie chart
-plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="pie", label.offset=0.75, tipcex=0.3, statecex=0.5, splitcex=0.5, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
-
-#######################################################
-# Plot ancestral states - BAYAREALIKE+J
-#######################################################
-analysis_titletxt ="BioGeoBEARS BAYAREALIKE+J on Glareosae M0_constrained and time periods"
-
-# Setup
-results_object = resBAYAREALIKEjc2
-scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
-
-# States
-res1 = plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="text", label.offset=0.75, tipcex=0.3, statecex=0.3, splitcex=0.3, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
-
-# Pie chart
-plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="pie", label.offset=0.75, tipcex=0.7, statecex=0.3, splitcex=0.5, titlecex=0.5, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
-
-dev.off()
-cmdstr = paste("open ", pdffn, sep="")
-system(cmdstr)
-
-```
-
-
-32. Comparing all results with dispersal rates and time periods
+30. Comparing all results with dispersal rates and time periods
 
 ```{r}
 #########################################################################
@@ -2673,7 +2422,7 @@ system(cmdstr)
 #########################################################################
 # 
 # CALCULATE SUMMARY STATISTICS TO COMPARE
-# DEC, DEC+J, DIVALIKE, DIVALIKE+J, BAYAREALIKE, BAYAREALIKE+J
+# DEC, DEC+J, DIVALIKE, DIVALIKE+J
 # 
 #########################################################################
 #########################################################################
@@ -2749,38 +2498,13 @@ tmp_tests = conditional_format_table(stats)
 restable = rbind(restable, res2, res1)
 teststable = rbind(teststable, tmp_tests)
 
-#######################################################
-# Statistics -- BAYAREALIKE vs. BAYAREALIKE+J
-#######################################################
-# We have to extract the log-likelihood differently, depending on the 
-# version of optim/optimx
-LnL_2 = get_LnL_from_BioGeoBEARS_results_object(resBAYAREALIKEc2)
-LnL_1 = get_LnL_from_BioGeoBEARS_results_object(resBAYAREALIKEjc2)
-
-numparams1 = 3
-numparams2 = 2
-stats = AICstats_2models(LnL_1, LnL_2, numparams1, numparams2)
-stats
-
-# BAYAREALIKE, null model for Likelihood Ratio Test (LRT)
-res2 = extract_params_from_BioGeoBEARS_results_object(results_object=resBAYAREALIKEc2, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
-# BAYAREALIKE+J, alternative model for Likelihood Ratio Test (LRT)
-res1 = extract_params_from_BioGeoBEARS_results_object(results_object=resBAYAREALIKEjc2, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
-
-rbind(res2, res1)
-conditional_format_table(stats)
-
-tmp_tests = conditional_format_table(stats)
-
-restable = rbind(restable, res2, res1)
-teststable = rbind(teststable, tmp_tests)
 
 #########################################################################
-# RESULTS: DEC, DEC+J, DIVALIKE, DIVALIKE+J, BAYAREALIKE, BAYAREALIKE+J
+# RESULTS: DEC, DEC+J, DIVALIKE, DIVALIKE+J
 #########################################################################
-teststable$alt = c("DEC+Jc", "DIVALIKE+Jc", "BAYAREALIKE+Jc")
-teststable$null = c("DECc", "DIVALIKEc", "BAYAREALIKEc")
-row.names(restable) = c("DECc", "DEC+Jc", "DIVALIKEc", "DIVALIKE+Jc", "BAYAREALIKEc", "BAYAREALIKE+Jc")
+teststable$alt = c("DEC+Jc", "DIVALIKE+Jc")
+teststable$null = c("DECc", "DIVALIKEc")
+row.names(restable) = c("DECc", "DEC+Jc", "DIVALIKEc", "DIVALIKE+Jc")
 
 # Look at the results!!
 restable
