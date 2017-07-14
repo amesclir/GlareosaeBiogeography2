@@ -2558,3 +2558,338 @@ write.table(conditional_format_table(restable_AICc_rellike), file="restable_AICc
 
 ```
 
+
+
+31. Setting packages and sources for multiples trees analyses
+
+```{r}
+###########################################################
+# Run Biogeobears on multiple trees and store the output 
+###########################################################
+
+###########################################################
+#Load libraries and additional source code
+###########################################################
+library(optimx)         
+library(FD)       
+library(snow)     
+library(parallel)
+library(BioGeoBEARS)
+library(stringr)
+
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_add_fossils_randomly_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_basics_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_calc_transition_matrices_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_classes_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_detection_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_DNA_cladogenesis_sim_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_extract_Qmat_COOmat_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_generics_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_models_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_on_multiple_trees_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_plots_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_readwrite_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_simulate_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_SSEsim_makePlots_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_SSEsim_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_stochastic_mapping_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_stratified_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/BioGeoBEARS_univ_model_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/calc_uppass_probs_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/calc_loglike_sp_v01.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/get_stratified_subbranch_top_downpass_likelihoods_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/runBSM_v1.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/stochastic_map_given_inputs.R")
+source("http://phylo.wdfiles.com/local--files/biogeobears/summarize_BSM_tables_v1.R")
+
+calc_loglike_sp = compiler::cmpfun(calc_loglike_sp_prebyte)    # crucial to fix bug in uppass calculations
+calc_independent_likelihoods_on_each_branch = compiler::cmpfun(calc_independent_likelihoods_on_each_branch_prebyte)
+
+
+
+```
+
+32. Setting files for multiple trees analyses
+
+```{r}
+
+
+newick_fns = read.nexus("tree.trees")
+newick_fns
+tipstoremove <- c("Cremota","Cspicata", "Cpaniculata", "Celongata", "Cscoparia", "Cmerritt-fernaldi", "Cbolanderi", "Cleptopoda", "Cdeweyana", "Cbromoides", "Cchordorrhyza")
+newick_fns2 <- list()
+for (i in 1:50) newick_fns2[[i]] <- drop.tip (newick_fns[[i]], tipstoremove)
+class(newick_fns2) <- "multiPhylo"
+
+plot(newick_fns2[[1]], cex = 0.8)
+title("Example Glareosae phylogeny")
+axisPhylo()
+
+for (i in 1:50) newick_fns2[[i]]$root.edge <- 2
+class(newick_fns2) <- "multiPhylo"
+
+plot(newick_fns2[[4]], cex = 0.8, root.edge = TRUE)
+title("Example Glareosae phylogeny")
+axisPhylo()
+
+write.tree(newick_fns2, file = "glareosae.trees")
+write.tree(newick_fns2[[1]], file = "glareosae1.newick")
+write.tree(newick_fns2[[2]], file = "glareosae2.newick")
+write.tree(newick_fns2[[3]], file = "glareosae3.newick")
+write.tree(newick_fns2[[4]], file = "glareosae4.newick")
+write.tree(newick_fns2[[5]], file = "glareosae5.newick")
+write.tree(newick_fns2[[6]], file = "glareosae6.newick")
+write.tree(newick_fns2[[7]], file = "glareosae7.newick")
+write.tree(newick_fns2[[8]], file = "glareosae8.newick")
+write.tree(newick_fns2[[9]], file = "glareosae9.newick")
+write.tree(newick_fns2[[10]], file = "glareosae11.newick")
+write.tree(newick_fns2[[11]], file = "glareosae11.newick")
+write.tree(newick_fns2[[12]], file = "glareosae12.newick")
+write.tree(newick_fns2[[13]], file = "glareosae13.newick")
+write.tree(newick_fns2[[14]], file = "glareosae14.newick")
+write.tree(newick_fns2[[15]], file = "glareosae15.newick")
+write.tree(newick_fns2[[16]], file = "glareosae16.newick")
+write.tree(newick_fns2[[17]], file = "glareosae17.newick")
+write.tree(newick_fns2[[18]], file = "glareosae18.newick")
+write.tree(newick_fns2[[19]], file = "glareosae19.newick")
+write.tree(newick_fns2[[20]], file = "glareosae20.newick")
+write.tree(newick_fns2[[21]], file = "glareosae21.newick")
+write.tree(newick_fns2[[22]], file = "glareosae22.newick")
+write.tree(newick_fns2[[23]], file = "glareosae23.newick")
+write.tree(newick_fns2[[24]], file = "glareosae24.newick")
+write.tree(newick_fns2[[25]], file = "glareosae25.newick")
+write.tree(newick_fns2[[26]], file = "glareosae26.newick")
+write.tree(newick_fns2[[27]], file = "glareosae27.newick")
+write.tree(newick_fns2[[28]], file = "glareosae28.newick")
+write.tree(newick_fns2[[29]], file = "glareosae29.newick")
+write.tree(newick_fns2[[30]], file = "glareosae30.newick")
+write.tree(newick_fns2[[31]], file = "glareosae31.newick")
+write.tree(newick_fns2[[32]], file = "glareosae32.newick")
+write.tree(newick_fns2[[33]], file = "glareosae33.newick")
+write.tree(newick_fns2[[34]], file = "glareosae34.newick")
+write.tree(newick_fns2[[35]], file = "glareosae35.newick")
+write.tree(newick_fns2[[36]], file = "glareosae36.newick")
+write.tree(newick_fns2[[37]], file = "glareosae37.newick")
+write.tree(newick_fns2[[38]], file = "glareosae38.newick")
+write.tree(newick_fns2[[39]], file = "glareosae39.newick")
+write.tree(newick_fns2[[40]], file = "glareosae40.newick")
+write.tree(newick_fns2[[41]], file = "glareosae41.newick")
+write.tree(newick_fns2[[42]], file = "glareosae42.newick")
+write.tree(newick_fns2[[43]], file = "glareosae43.newick")
+write.tree(newick_fns2[[44]], file = "glareosae44.newick")
+write.tree(newick_fns2[[45]], file = "glareosae45.newick")
+write.tree(newick_fns2[[46]], file = "glareosae46.newick")
+write.tree(newick_fns2[[47]], file = "glareosae47.newick")
+write.tree(newick_fns2[[48]], file = "glareosae48.newick")
+write.tree(newick_fns2[[49]], file = "glareosae49.newick")
+write.tree(newick_fns2[[50]], file = "glareosae50.newick")
+
+
+newick_fns = scan("glareosae.newicks", what="character", sep=NULL)
+geog_fns = scan("glareosae.datas", what="character", sep=NULL)
+resfns = scan("outputnames.txt", what="character", sep=NULL)
+
+
+trfn = np("glareosae.tree")
+moref(trfn)
+
+geogfn = np("glareosae.data")
+#extdata_dir = np(system.file("extdata", package="BioGeoBEARS"))
+#extdata_dir
+#list.files(extdata_dir)
+#geogfn = np(paste(addslash(extdata_dir), "Psychotria_geog.data", sep=""))
+
+geogfn
+moref(geogfn)
+
+# Look at your geographic range data:
+tipranges = getranges_from_LagrangePHYLIP(lgdata_fn=geogfn)
+tipranges
+
+max_range_size = 5
+
+
+
+
+numstates_from_numareas(numareas=5, maxareas=5, include_null_range=TRUE)
+numstates_from_numareas(numareas=5, maxareas=5, include_null_range=FALSE)
+
+
+
+```
+
+33. Running DEC on multiples trees
+
+```{r}
+
+
+#######################################################
+# Run DEC
+#######################################################
+
+# Intitialize a default model (DEC model)
+BioGeoBEARS_run_object = define_BioGeoBEARS_run()
+
+# Give BioGeoBEARS the location of the phylogeny Newick file
+BioGeoBEARS_run_object$trfn = trfn
+
+# Give BioGeoBEARS the location of the geography text file
+BioGeoBEARS_run_object$geogfn = geogfn
+
+# Input the maximum range size
+BioGeoBEARS_run_object$max_range_size = max_range_size
+
+BioGeoBEARS_run_object$min_branchlength = 0.000001    # Min to treat tip as a direct ancestor (no speciation event)
+BioGeoBEARS_run_object$include_null_range = TRUE    # set to FALSE for e.g. DEC* model, DEC*+J, etc. (see Massana et al.)
+# also search script on "include_null_range" for other places to change
+
+# Set up a time-stratified analysis:
+# 1. Here, un-comment ONLY the files you want to use.
+# 2. Also un-comment "BioGeoBEARS_run_object = section_the_tree(...", below.
+# 3. For example files see (a) extdata_dir, 
+#  or (b) http://phylo.wikidot.com/biogeobears#files
+#  and BioGeoBEARS Google Group posts for further hints)
+#
+# Uncomment files you wish to use in time-stratified analyses:
+BioGeoBEARS_run_object$timesfn = "timeperiods2.txt"
+BioGeoBEARS_run_object$dispersal_multipliers_fn = "manual_dispersal_multipliers2.txt"
+#BioGeoBEARS_run_object$areas_allowed_fn = "areas_allowed.txt"
+#BioGeoBEARS_run_object$areas_adjacency_fn = areasadjacency
+#BioGeoBEARS_run_object$distsfn = "distances_matrix.txt"
+# See notes on the distances model on PhyloWiki's BioGeoBEARS updates page.
+
+# Speed options and multicore processing if desired
+BioGeoBEARS_run_object$speedup = TRUE          # shorcuts to speed ML search; use FALSE if worried (e.g. >3 params)
+BioGeoBEARS_run_object$use_optimx = TRUE     # if FALSE, use optim() instead of optimx()
+BioGeoBEARS_run_object$num_cores_to_use = 1
+# (use more cores to speed it up; this requires
+# library(parallel) and/or library(snow). The package "parallel" 
+# is now default on Macs in R 3.0+, but apparently still 
+# has to be typed on some Windows machines. Note: apparently 
+# parallel works on Mac command-line R, but not R.app.
+# BioGeoBEARS checks for this and resets to 1
+# core with R.app)
+
+# Sparse matrix exponentiation is an option for huge numbers of ranges/states (600+)
+# I have experimented with sparse matrix exponentiation in EXPOKIT/rexpokit,
+# but the results are imprecise and so I haven't explored it further.
+# In a Bayesian analysis, it might work OK, but the ML point estimates are
+# not identical.
+# Also, I have not implemented all functions to work with force_sparse=TRUE.
+# Volunteers are welcome to work on it!!
+BioGeoBEARS_run_object$force_sparse = FALSE    # force_sparse=TRUE causes pathology & isn't much faster at this scale
+
+# This function loads the dispersal multiplier matrix etc. from the text files into the model object. Required for these to work!
+# (It also runs some checks on these inputs for certain errors.)
+BioGeoBEARS_run_object = readfiles_BioGeoBEARS_run(BioGeoBEARS_run_object)
+
+# Divide the tree up by timeperiods/strata (uncomment this for stratified analysis)
+BioGeoBEARS_run_object = section_the_tree(inputs=BioGeoBEARS_run_object, make_master_table=TRUE, plot_pieces=FALSE)
+# The stratified tree is described in this table:
+#BioGeoBEARS_run_object$master_table
+
+# Good default settings to get ancestral states
+BioGeoBEARS_run_object$return_condlikes_table = TRUE
+BioGeoBEARS_run_object$calc_TTL_loglike_from_condlikes_table = TRUE
+BioGeoBEARS_run_object$calc_ancprobs = TRUE    # get ancestral states from optim run
+
+# Set up DEC model
+# (nothing to do; defaults)
+
+# Look at the BioGeoBEARS_run_object; it's just a list of settings etc.
+BioGeoBEARS_run_object
+
+# This contains the model object
+BioGeoBEARS_run_object$BioGeoBEARS_model_object
+
+# This table contains the parameters of the model 
+BioGeoBEARS_run_object$BioGeoBEARS_model_object@params_table
+
+# Run this to check inputs. Read the error messages if you get them!
+check_BioGeoBEARS_run(BioGeoBEARS_run_object)
+
+res = run_bears_optim_on_multiple_trees(BioGeoBEARS_run_object, newick_fns, model_name="Glareosae_DECc2_MT", geog_fns, resfns, run_or_collect="run", start_treenum=1, end_treenum=length(newick_fns), runslow=TRUE, plot_params=FALSE)
+res
+
+res2 = run_bears_optim_on_multiple_trees(BioGeoBEARS_run_object, newick_fns, model_name="Glareosae_DECc2_MT", geog_fns, resfns, run_or_collect="collect", start_treenum=1, end_treenum=length(newick_fns), runslow=TRUE, plot_params=FALSE)
+res2
+
+
+names(res2)
+
+# This has the (averaged) state probabilities at nodes and corners
+# for the master tree (whatever you put in BioGeoBEARS_run_object)
+dim(res2$state_probs_at_nodes_across_all_trees)
+dim(res2$state_probs_at_corners_across_all_trees)
+
+# This has the averaged parameter values
+res2$optim_results_mean
+
+
+# For a slow analysis, run once, then set runslow=FALSE to just 
+# load the saved result.
+runslow = TRUE
+resfn = "Glareosae_DEC_M0_constrained2_v1_ML.Rdata"
+if (runslow)
+    {
+    res = bears_optim_run(BioGeoBEARS_run_object)
+    res    
+
+    save(res, file=resfn)
+    resDECc2ML = res
+    } else {
+    # Loads to "res"
+    load(resfn)
+    resDECc2ML = res
+    }
+
+
+
+```
+
+
+26. Plotting the results with dispesal rates and time periods and multiple trees
+
+```{r}
+
+#######################################################
+# PDF plots
+#######################################################
+pdffn = "Glareosae_DEC_vs_DECMT_M0_constrained2_v1.pdf"
+pdf(pdffn, width=6, height=6)
+
+#######################################################
+# Plot ancestral states - DEC
+#######################################################
+analysis_titletxt ="BioGeoBEARS DEC on Glareosae M0_constrained and time periods"
+
+# Setup
+results_object = resDECc2
+scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
+
+# States
+res2 = plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="text", label.offset=0.75, tipcex=0.3, statecex=0.3, splitcex=0.3, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
+
+# Pie chart
+plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="pie", label.offset=0.75, tipcex=0.3, statecex=0.5, splitcex=0.5, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
+
+#######################################################
+# Plot ancestral states - DEC with multiple trees
+#######################################################
+analysis_titletxt ="BioGeoBEARS DEC MT on Glareosae M0_constrained and time periods"
+
+# Setup
+results_object = resDECc2ML
+scriptdir = np(system.file("extdata/a_scripts", package="BioGeoBEARS"))
+
+# States
+res1 = plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="text", label.offset=0.75, tipcex=0.3, statecex=0.3, splitcex=0.3, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
+
+# Pie chart
+plot_BioGeoBEARS_results(results_object, analysis_titletxt, addl_params=list("j"), plotwhat="pie", label.offset=0.75, tipcex=0.3, statecex=0.5, splitcex=0.5, titlecex=0.8, plotsplits=TRUE, cornercoords_loc=scriptdir, include_null_range=TRUE, tr=tr, tipranges=tipranges)
+
+dev.off()  # Turn off PDF
+cmdstr = paste("open ", pdffn, sep="")
+system(cmdstr) # Plot it
+
+```
