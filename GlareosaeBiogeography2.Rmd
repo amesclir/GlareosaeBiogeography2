@@ -2625,9 +2625,6 @@ plot(newick_fns2[[4]], cex = 0.8)
 title("Example Glareosae phylogeny")
 axisPhylo()
 
-for (i in 1:50) newick_fns2[[i]]$root.edge <- 4
-class(newick_fns2) <- "multiPhylo"
-
 plot(newick_fns2[[4]], cex = 0.8, root.edge = TRUE)
 title("Example Glareosae phylogeny")
 axisPhylo()
@@ -2642,7 +2639,7 @@ write.tree(newick_fns2[[6]], file = "glareosae6.newick")
 write.tree(newick_fns2[[7]], file = "glareosae7.newick")
 write.tree(newick_fns2[[8]], file = "glareosae8.newick")
 write.tree(newick_fns2[[9]], file = "glareosae9.newick")
-write.tree(newick_fns2[[10]], file = "glareosae11.newick")
+write.tree(newick_fns2[[10]], file = "glareosae10.newick")
 write.tree(newick_fns2[[11]], file = "glareosae11.newick")
 write.tree(newick_fns2[[12]], file = "glareosae12.newick")
 write.tree(newick_fns2[[13]], file = "glareosae13.newick")
@@ -2688,6 +2685,9 @@ write.tree(newick_fns2[[50]], file = "glareosae50.newick")
 newick_fns = scan("glareosae.newicks", what="character", sep=NULL)
 geog_fns = scan("glareosae.datas", what="character", sep=NULL)
 resfns = scan("outputnames.txt", what="character", sep=NULL)
+
+
+
 
 
 trfn = np("glareosae.tree")
@@ -2906,12 +2906,16 @@ if (runslow)
 #' @runslow If FALSE, old, saved .Rdata results are loaded via load(). Default TRUE generates new .Rdata files and 
 #' saves them via save()
 
+source("run_bears_optim_on_multiple_trees2.R")
+
 runslow = TRUE
 if (runslow)
   {
-	res = run_bears_optim_on_multiple_trees(BioGeoBEARS_run_object, newick_fns, model_name="Glareosae_DEC_MT", geog_fns, resfns, run_or_collect="run", start_treenum=1, end_treenum=length(newick_fns), runslow=TRUE, plot_params=FALSE)
-	
-	# Save res to "res_over_multiple_trees" 
+
+  
+	res = run_bears_optim_on_multiple_trees2(BioGeoBEARS_run_object, newick_fns,                                                        model_name="Glareosae_DEC_MT", geog_fns, resfns, run_or_collect="run", start_treenum=1, end_treenum=length(newick_fns), runslow=TRUE, plot_params=FALSE)
+
+# Save res to "res_over_multiple_trees" 
 	res_over_multiple_trees = res
 	save(res_over_multiple_trees, file="res_over_multiple_trees.Rdata")
 	} else {
@@ -2920,9 +2924,8 @@ if (runslow)
 	} # END if (runslow)
 
 
-
 # Now, collect the saved results from each individual run
-res2 = run_bears_optim_on_multiple_trees(BioGeoBEARS_run_object, newick_fns, model_name="Glareosae_DEC_MT", geog_fns, resfns, run_or_collect="collect", start_treenum=1, end_treenum=length(newick_fns), runslow=TRUE, plot_params=FALSE)
+res2 = run_bears_optim_on_multiple_trees2(BioGeoBEARS_run_object, newick_fns, model_name="Glareosae_DEC_MT", geog_fns, resfns, run_or_collect="collect", start_treenum=1, end_treenum=length(newick_fns), runslow=TRUE, plot_params=FALSE)
 #res2
 
 
@@ -2964,7 +2967,7 @@ res2$optim_results_mean
 
 
 # Let's assume this tree is the master tree
-best_trfn = "RAxML_best0821.newick"
+best_trfn = "glareosae.tree"
 tr = read.tree(best_trfn)
 master_OTUs = tr$tip.label
 
@@ -3024,7 +3027,7 @@ pdf(pdffn, width=6, height=18)
 #######################################################
 # Plot ancestral states - DEC
 #######################################################
-analysis_titletxt ="BioGeoBEARS DEC, averaged over 3 trees, plotted on master tree"
+analysis_titletxt ="BioGeoBEARS DEC, averaged over 50 trees, plotted on master tree"
 
 # Setup
 results_object = resDEC_averaged
