@@ -3021,8 +3021,8 @@ resDEC_averaged$optim_result = res2$optim_results_mean
 #######################################################
 # PDF plots
 #######################################################
-pdffn = "Plot_of_averages_on_master_tree_v1.pdf"
-pdf(pdffn, width=6, height=18)
+pdffn = "Plot_of_averages_on_master_tree_v1_DEC.pdf"
+pdf(pdffn, width=6, height=6)
 
 #######################################################
 # Plot ancestral states - DEC
